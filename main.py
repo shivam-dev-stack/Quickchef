@@ -11,7 +11,7 @@ load_dotenv()
 
 app = FastAPI()
 
-# Enable CORS for frontend communication
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,14 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Gemini Client (uses GEMINI_API_KEY environment variable automatically)
+
 client = genai.Client()
 
 @app.post("/api/cook-ai")
 async def cook_ai(file: UploadFile = File(...)):
-    print("API Key loaded:", bool(os.getenv("GEMINI_API_KEY")))
     try:
-        # Read the uploaded image file
+        
         image_bytes = await file.read()
         image = Image.open(io.BytesIO(image_bytes))
 
@@ -41,7 +40,7 @@ async def cook_ai(file: UploadFile = File(...)):
         - "steps": Step-by-step cooking instructions (array of strings)
         """
 
-        # Call Gemini 2.5 Flash for multimodal vision task
+        
         response = client.models.generate_content(
             model='gemini-3.5-flash',
             contents=[image, prompt],
@@ -50,12 +49,12 @@ async def cook_ai(file: UploadFile = File(...)):
             ),
         )
 
-        # Parse the JSON string returned by Gemini
+       
         recipe_data = json.loads(response.text)
         return recipe_data
 
     except Exception as e:
-        print("Error occurred:", str(e))
+        
         raise HTTPException(status_code=500, detail=str.error(e) if hasattr(e, 'error') else str(e))
     
 
