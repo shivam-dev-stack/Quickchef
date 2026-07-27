@@ -26,7 +26,7 @@ quickchef-ai/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/quickchef-ai.git
+git clone https://github.com/shivam-dev-stack/Quickchef.git
 cd quickchef-ai
 ```
 
